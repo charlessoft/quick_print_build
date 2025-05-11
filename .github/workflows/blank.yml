@@ -52,7 +52,7 @@ jobs:
 
       - name: download external lib
         run: |
-          cd quick-print/tools
+          cd quick-print/tools/external_lib
           python download.py
 
 
