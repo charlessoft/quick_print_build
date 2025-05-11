@@ -36,9 +36,10 @@ jobs:
           submodules: recursive
 
       - name: CMake
+        shell: powershell
         run: |
-          # make a build directory (note: build is already used by Crashpad)
-          #mkdir build
+          pwd
+          dir 
           cd build
           cmake ../ -G "Visual Studio 16 2019"
 
