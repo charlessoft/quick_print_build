@@ -32,7 +32,7 @@ jobs:
 
       - name: Checkout from Gitee
         run: |
-          git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git .
+          git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git 
 
       - name: show dir
         run: |
@@ -51,7 +51,7 @@ jobs:
         run: |
           pwd
           dir 
-          cd build
+          cd quick-print/build
           cmake ../ -G "Visual Studio 16 2019"
 
           # run CMake (additional options like -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE are possible)
