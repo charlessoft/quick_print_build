@@ -21,6 +21,15 @@ jobs:
             vsversion: 2019
     steps:
 
+      
+          
+      - uses: lukka/get-cmake@latest
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+
       - name: Checkout from Gitee
         run: |
           git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git .
@@ -29,12 +38,6 @@ jobs:
         run: |
           dir
           
-      - uses: lukka/get-cmake@latest
-
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
       - name: test pwd
         run: |
           pwd
