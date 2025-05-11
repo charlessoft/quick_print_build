@@ -5,9 +5,9 @@ on:
       - webhook-1
       - webhook-2
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]  
+    branches: [ main ]  
 jobs:
   msw-msvs:
     runs-on: windows-${{ matrix.vsversion }}
