@@ -53,6 +53,7 @@ jobs:
       - name: download external lib
         run: |
           cd quick-print/tools/external_lib
+          pip install -r requirements.txt
           python download.py
 
 
