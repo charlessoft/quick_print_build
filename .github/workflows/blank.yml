@@ -34,18 +34,9 @@ jobs:
         run: |
           git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git 
 
-      - name: show dir
-        run: |
-          dir
-          
-      - name: test pwd
-        run: |
-          pwd
-
-      - name: test pwd
-        run: |
-          dir
-
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        
       - name: CMake
         shell: powershell
         run: |
@@ -58,13 +49,15 @@ jobs:
           # it is recommended to specify the compiler version used for the build
           # cmake -S . -B cbuild/ -DCRASHPAD_BUILD_EXAMPLES=TRUE -DCMAKE_CXX_COMPILER=cl.exe -DCMAKE_C_COMPILER=cl.exe -DCMAKE_BUILD_TYPE=Release
           # cmake --build cbuild/ --config Release -- /p:Configuration=Release
-          
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+
+      - name: download external lib
+        run: |
+          cd quick-print/tools
+          python download.py
 
 
       - name: Build with MSBuild
-        run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} build/quick-print.sln
+        run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} quick-print/build/quick-print.sln
 
 
         
