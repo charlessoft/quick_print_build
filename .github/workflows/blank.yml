@@ -38,19 +38,21 @@ jobs:
       - name: CMake
         run: |
           # make a build directory (note: build is already used by Crashpad)
-          mkdir cbuild
+          #mkdir build
+          cd build
+          cmake ../ -G "Visual Studio 16 2019"
 
           # run CMake (additional options like -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE are possible)
           # it is recommended to specify the compiler version used for the build
-          cmake -S . -B cbuild/ -DCRASHPAD_BUILD_EXAMPLES=TRUE -DCMAKE_CXX_COMPILER=cl.exe -DCMAKE_C_COMPILER=cl.exe -DCMAKE_BUILD_TYPE=Release
-          cmake --build cbuild/ --config Release -- /p:Configuration=Release
+          # cmake -S . -B cbuild/ -DCRASHPAD_BUILD_EXAMPLES=TRUE -DCMAKE_CXX_COMPILER=cl.exe -DCMAKE_C_COMPILER=cl.exe -DCMAKE_BUILD_TYPE=Release
+          # cmake --build cbuild/ --config Release -- /p:Configuration=Release
           
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
 
       - name: Build with MSBuild
-        run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} WinSparkle.sln
+        run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} build/quick-print.sln
 
 
         
