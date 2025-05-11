@@ -35,6 +35,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: test pwd
+        run: |
+          pwd
+
       - name: CMake
         shell: powershell
         run: |
