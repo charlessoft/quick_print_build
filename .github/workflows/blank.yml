@@ -42,9 +42,11 @@ jobs:
       #     git config --global http.proxy socks5://python:psdemo982@123.60.164.114:11654
 
 
-      - name: Checkout from Gitee
+      - name: Clone repository from Gitee with trace
+        shell: pwsh
         run: |
-          GIT_TRACE=1 git clone git@gitee.com:charlesabc/quick-print.git
+          $env:GIT_TRACE = "1"
+          git clone git@gitee.com:charlesabc/quick-print.git
         
           # git clone git@gitee.com:charlesabc/quick-print.git
           # git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git 
