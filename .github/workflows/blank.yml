@@ -40,19 +40,37 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Install dding
+      - name: Install dding on non-Windows
+        if: runner.os != 'Windows'
         run: |
           pip install dding
           mkdir -p ~/.dding
           cat <<EOF > ~/.dding/config.json
           [
               {
-                   "group": "default",
-                   "secret": "${{ github.event.client_payload.dding_secret }}",
-                   "token": "${{ github.event.client_payload.dding_token }}"
-               }
+                  "group": "default",
+                  "secret": "${{ github.event.client_payload.dding_secret }}",
+                  "token": "${{ github.event.client_payload.dding_token }}"
+              }
           ]
           EOF
+      
+      - name: Install dding on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          pip install dding
+          New-Item -Path $HOME\.dding -ItemType Directory -Force
+          $config = @"
+          [
+              {
+                  "group": "default",
+                  "secret": "${{ github.event.client_payload.dding_secret }}",
+                  "token": "${{ github.event.client_payload.dding_token }}"
+              }
+          ]
+          "@
+          $config | Out-File -FilePath $HOME\.dding\config.json -Encoding utf8
 
 
       # - name: Set up proxy
