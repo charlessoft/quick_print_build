@@ -35,7 +35,25 @@ jobs:
         with:
           submodules: recursive
 
-          
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dding
+        run: |
+          pip install dding
+          mkdir -p ~/.dding
+          cat <<EOF > ~/.dding/config.json
+          [
+              {
+                   "group": "default",
+                   "secret": "${{ github.event.client_payload.dding_secret }}",
+                   "token": "${{ github.event.client_payload.dding_token }}"
+               }
+          ]
+          EOF
+
 
       # - name: Set up proxy
       #   run: |
