@@ -8,6 +8,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]  
+env:
+  DEFAULT_DDING_SECRET: 'SECbe4003c4d14c740788cf9383fa1d8d77c029a03e6df99dde528274b9bcc17926'
+  DEFAULT_DDING_TOKEN: 'fd87df4f83611b4c4cf31d5ad48f890f9603b57b1cac3d52fb80df8b86a5b629'
 jobs:
   msw-msvs:
     runs-on: windows-${{ matrix.vsversion }}
@@ -45,12 +48,14 @@ jobs:
         run: |
           pip install dding
           mkdir -p ~/.dding
+          dding_secret="${{ github.event.client_payload.dding_secret || env.DEFAULT_DDING_SECRET }}"
+          dding_token="${{ github.event.client_payload.dding_token || env.DEFAULT_DDING_TOKEN }}"
           cat <<EOF > ~/.dding/config.json
           [
               {
                   "group": "default",
-                  "secret": "${{ github.event.client_payload.dding_secret }}",
-                  "token": "${{ github.event.client_payload.dding_token }}"
+                  "secret": "$dding_secret",
+                  "token": "$dding_token"
               }
           ]
           EOF
@@ -61,12 +66,14 @@ jobs:
         run: |
           pip install dding
           New-Item -Path $HOME\.dding -ItemType Directory -Force
+          $dding_secret = "${{ github.event.client_payload.dding_secret || env.DEFAULT_DDING_SECRET }}"
+          $dding_token = "${{ github.event.client_payload.dding_token || env.DEFAULT_DDING_TOKEN }}"
           $config = @"
           [
               {
                   "group": "default",
-                  "secret": "${{ github.event.client_payload.dding_secret }}",
-                  "token": "${{ github.event.client_payload.dding_token }}"
+                  "secret": "$dding_secret",
+                  "token": "$dding_token"
               }
           ]
           "@
