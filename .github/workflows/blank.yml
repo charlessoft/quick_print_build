@@ -134,4 +134,19 @@ jobs:
         run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} quick-print/build/quick-print.sln
 
 
+      - name: Check Status
+        if: ${{ success() }}
+        shell: pwsh
+        run: |
+          $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
+          Write-Host "Workflow succeeded for $repoName!"
+          dding "github action 发布成功 for $repoName"
+
+      - name: Check Status
+        if: ${{ failure() }}
+        shell: pwsh
+        run: |
+          $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
+          Write-Host "Workflow failed for $repoName!"
+          dding "github action 发布失败 for $repoName"
         
