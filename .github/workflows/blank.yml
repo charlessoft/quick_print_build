@@ -25,12 +25,17 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_GITEE_PRIVATE_KEY }}
-
+      - name: Add Gitee to known hosts
+        run: |
+          ssh-keyscan gitee.com >> ~/.ssh/known_hosts
+    
       - uses: lukka/get-cmake@latest
 
       - uses: actions/checkout@v3
         with:
           submodules: recursive
+
+          
 
       # - name: Set up proxy
       #   run: |
