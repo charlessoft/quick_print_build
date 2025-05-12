@@ -32,7 +32,6 @@ jobs:
       - name: Set up proxy
         run: |
           git config --global http.proxy socks5://python:psdemo982@123.60.164.114:11654
-          git config --global https.proxy socks5://python:psdemo982@123.60.164.114:11654
 
 
       - name: Checkout from Gitee
