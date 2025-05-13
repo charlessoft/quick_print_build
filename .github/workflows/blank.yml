@@ -140,7 +140,8 @@ jobs:
         run: |
           $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
           Write-Host "Workflow succeeded for $repoName!"
-          dding "github action 发布成功 for $repoName"
+          dding "github action 发布成功 for $repoName".encode('utf-8')
+          
 
       - name: Check Status
         if: ${{ failure() }}
@@ -148,5 +149,5 @@ jobs:
         run: |
           $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
           Write-Host "Workflow failed for $repoName!"
-          dding "github action 发布失败 for $repoName"
+          dding "github action 发布失败 for $repoName".encode('utf-8')
         
