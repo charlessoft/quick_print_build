@@ -104,7 +104,7 @@ jobs:
           pwd
           dir 
           cd quick-print/build
-          cmake ../ -G "Visual Studio 16 2019"
+          cmake ../ -G "Visual Studio 16 2019" 
 
           # run CMake (additional options like -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE are possible)
           # it is recommended to specify the compiler version used for the build
@@ -140,7 +140,7 @@ jobs:
         run: |
           $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
           Write-Host "Workflow succeeded for $repoName!"
-          dding "github action 发布成功 for $repoName".encode('utf-8')
+          dding "github action success :) for $repoName".encode('utf-8')
           
 
       - name: Check Status
@@ -149,5 +149,5 @@ jobs:
         run: |
           $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
           Write-Host "Workflow failed for $repoName!"
-          dding "github action 发布失败 for $repoName".encode('utf-8')
+          dding "github action fail :( $repoName"
         
