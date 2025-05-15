@@ -145,6 +145,8 @@ jobs:
         run: |
           echo "%cd%"
           dir
+          cd quick-print
+          dir librel64
       - name: Archive binaries
         uses: actions/upload-artifact@v4
         with:
