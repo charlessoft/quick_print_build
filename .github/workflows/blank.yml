@@ -118,16 +118,6 @@ jobs:
           pip install -r requirements.txt
           python download.py --arch x64 --build_types dbg
           python download.py --arch x64 --build_types rel
-          ls ../../external/wxWidgets/
-          echo "----------------------------------------------------------------------"
-          ls ../../external/wxWidgets/win
-          echo "----------------------------------------------------------------------"
-          ls ../../external/wxWidgets/win//include
-          echo "----------------------------------------------------------------------"
-          ls ../../external/wxWidgets/win//include/wx
-          
-          
-          
 
 
       - name: Build with MSBuild
@@ -150,4 +140,30 @@ jobs:
           $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
           Write-Host "Workflow failed for $repoName!"
           dding "github action fail :( $repoName"
-        
+
+      - name: Archive binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: librel64
+          path: |
+            librel64
+          retention-days: 1 # <= 这里可以设置保留天数
+
+
+  package-inno-setup:
+    needs: msw-msvs
+    runs-on: windows-${{ matrix.vsversion }}
+    name: inno package
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4     
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./librel64  
+
+      - name: Build package
+        run: |
+          cd setup\exe
+          build.bat
