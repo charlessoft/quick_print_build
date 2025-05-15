@@ -146,7 +146,7 @@ jobs:
         with:
           name: librel64
           path: |
-            librel64
+            quick-print/librel64
           retention-days: 1 # <= 这里可以设置保留天数
 
 
@@ -161,9 +161,9 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./librel64  
+          path: quick-print/librel64  
 
       - name: Build package
         run: |
-          cd setup\exe
+          cd quick-print\setup\exe
           build.bat
