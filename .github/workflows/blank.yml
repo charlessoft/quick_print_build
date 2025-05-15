@@ -33,67 +33,67 @@ jobs:
         run: |
           ssh-keyscan gitee.com >> ~/.ssh/known_hosts
     
-      # - uses: lukka/get-cmake@latest
+      - uses: lukka/get-cmake@latest
 
-      # - uses: actions/checkout@v3
-      #   with:
-      #     submodules: recursive
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v2
-      #   with:
-      #     python-version: '3.8'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
 
-      # - name: Install dding on non-Windows
-      #   if: runner.os != 'Windows'
-      #   run: |
-      #     pip install dding
-      #     mkdir -p ~/.dding
-      #     dding_secret="${{ github.event.client_payload.dding_secret || env.DEFAULT_DDING_SECRET }}"
-      #     dding_token="${{ github.event.client_payload.dding_token || env.DEFAULT_DDING_TOKEN }}"
-      #     cat <<EOF > ~/.dding/config.json
-      #     [
-      #         {
-      #             "group": "default",
-      #             "secret": "$dding_secret",
-      #             "token": "$dding_token"
-      #         }
-      #     ]
-      #     EOF
+      - name: Install dding on non-Windows
+        if: runner.os != 'Windows'
+        run: |
+          pip install dding
+          mkdir -p ~/.dding
+          dding_secret="${{ github.event.client_payload.dding_secret || env.DEFAULT_DDING_SECRET }}"
+          dding_token="${{ github.event.client_payload.dding_token || env.DEFAULT_DDING_TOKEN }}"
+          cat <<EOF > ~/.dding/config.json
+          [
+              {
+                  "group": "default",
+                  "secret": "$dding_secret",
+                  "token": "$dding_token"
+              }
+          ]
+          EOF
       
-      # - name: Install dding on Windows
-      #   if: runner.os == 'Windows'
-      #   shell: pwsh
+      - name: Install dding on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          pip install dding
+          New-Item -Path $HOME\.dding -ItemType Directory -Force
+          $dding_secret = "${{ github.event.client_payload.dding_secret || env.DEFAULT_DDING_SECRET }}"
+          $dding_token = "${{ github.event.client_payload.dding_token || env.DEFAULT_DDING_TOKEN }}"
+          $config = @"
+          [
+              {
+                  "group": "default",
+                  "secret": "$dding_secret",
+                  "token": "$dding_token"
+              }
+          ]
+          "@
+          $config | Out-File -FilePath $HOME\.dding\config.json -Encoding utf8
+
+
+      # - name: Set up proxy
       #   run: |
-      #     pip install dding
-      #     New-Item -Path $HOME\.dding -ItemType Directory -Force
-      #     $dding_secret = "${{ github.event.client_payload.dding_secret || env.DEFAULT_DDING_SECRET }}"
-      #     $dding_token = "${{ github.event.client_payload.dding_token || env.DEFAULT_DDING_TOKEN }}"
-      #     $config = @"
-      #     [
-      #         {
-      #             "group": "default",
-      #             "secret": "$dding_secret",
-      #             "token": "$dding_token"
-      #         }
-      #     ]
-      #     "@
-      #     $config | Out-File -FilePath $HOME\.dding\config.json -Encoding utf8
+      #     git config --global http.proxy socks5://python:psdemo982@123.60.164.114:11654
 
 
-      # # - name: Set up proxy
-      # #   run: |
-      # #     git config --global http.proxy socks5://python:psdemo982@123.60.164.114:11654
-
-
-      # - name: Clone repository from Gitee with trace
-      #   shell: pwsh
-      #   run: |
-      #     $env:GIT_TRACE = "1"
-      #     git clone git@gitee.com:charlesabc/quick-print.git
+      - name: Clone repository from Gitee with trace
+        shell: pwsh
+        run: |
+          $env:GIT_TRACE = "1"
+          git clone git@gitee.com:charlesabc/quick-print.git
         
-      #     # git clone git@gitee.com:charlesabc/quick-print.git
-      #     # git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git 
+          # git clone git@gitee.com:charlesabc/quick-print.git
+          # git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git 
 
       # - name: Setup MSBuild
       #   uses: microsoft/setup-msbuild@v2
