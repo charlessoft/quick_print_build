@@ -95,51 +95,51 @@ jobs:
           # git clone git@gitee.com:charlesabc/quick-print.git
           # git clone https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/charlesabc/quick-print.git 
 
-      # - name: Setup MSBuild
-      #   uses: microsoft/setup-msbuild@v2
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
         
-      # - name: CMake
-      #   shell: powershell
-      #   run: |
-      #     pwd
-      #     dir 
-      #     cd quick-print/build
-      #     cmake ../ -G "Visual Studio 16 2019" 
+      - name: CMake
+        shell: powershell
+        run: |
+          pwd
+          dir 
+          cd quick-print/build
+          cmake ../ -G "Visual Studio 16 2019" 
 
-      #     # run CMake (additional options like -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE are possible)
-      #     # it is recommended to specify the compiler version used for the build
-      #     # cmake -S . -B cbuild/ -DCRASHPAD_BUILD_EXAMPLES=TRUE -DCMAKE_CXX_COMPILER=cl.exe -DCMAKE_C_COMPILER=cl.exe -DCMAKE_BUILD_TYPE=Release
-      #     # cmake --build cbuild/ --config Release -- /p:Configuration=Release
+          # run CMake (additional options like -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE are possible)
+          # it is recommended to specify the compiler version used for the build
+          # cmake -S . -B cbuild/ -DCRASHPAD_BUILD_EXAMPLES=TRUE -DCMAKE_CXX_COMPILER=cl.exe -DCMAKE_C_COMPILER=cl.exe -DCMAKE_BUILD_TYPE=Release
+          # cmake --build cbuild/ --config Release -- /p:Configuration=Release
 
-      # - name: Download External Lib
-      #   run: |
-      #     set PYTHONIOENCODING=utf-8
-      #     cd quick-print/tools/external_lib
-      #     pip install -r requirements.txt
-      #     python download.py --arch x64 --build_types dbg
-      #     python download.py --arch x64 --build_types rel
-
-
-      # - name: Build with MSBuild
-      #   run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} quick-print/build/quick-print.sln
+      - name: Download External Lib
+        run: |
+          set PYTHONIOENCODING=utf-8
+          cd quick-print/tools/external_lib
+          pip install -r requirements.txt
+          python download.py --arch x64 --build_types dbg
+          python download.py --arch x64 --build_types rel
 
 
-      # - name: Check Status
-      #   if: ${{ success() }}
-      #   shell: pwsh
-      #   run: |
-      #     $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
-      #     Write-Host "Workflow succeeded for $repoName!"
-      #     dding "github action success :) for $repoName"
+      - name: Build with MSBuild
+        run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} quick-print/build/quick-print.sln
+
+
+      - name: Check Status
+        if: ${{ success() }}
+        shell: pwsh
+        run: |
+          $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
+          Write-Host "Workflow succeeded for $repoName!"
+          dding "github action success :) for $repoName"
           
 
-      # - name: Check Status
-      #   if: ${{ failure() }}
-      #   shell: pwsh
-      #   run: |
-      #     $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
-      #     Write-Host "Workflow failed for $repoName!"
-      #     dding "github action fail :( $repoName"
+      - name: Check Status
+        if: ${{ failure() }}
+        shell: pwsh
+        run: |
+          $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
+          Write-Host "Workflow failed for $repoName!"
+          dding "github action fail :( $repoName"
 
       - name: Ls dir
         run: |
