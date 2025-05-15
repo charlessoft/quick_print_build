@@ -130,7 +130,7 @@ jobs:
         run: |
           $repoName = $env:GITHUB_REPOSITORY.Split('/')[-1]
           Write-Host "Workflow succeeded for $repoName!"
-          dding "github action success :) for $repoName".encode('utf-8')
+          dding "github action success :) for $repoName"
           
 
       - name: Check Status
