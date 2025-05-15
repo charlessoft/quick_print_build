@@ -146,13 +146,13 @@ jobs:
           echo "%cd%"
           dir
           cd quick-print
-          dir quick-print/librel64
+          dir 
       - name: Archive binaries
         uses: actions/upload-artifact@v4
         with:
           name: librel64
           path: |
-            quick-print/librel64
+            README.md
           retention-days: 1 # <= 这里可以设置保留天数
 
 
