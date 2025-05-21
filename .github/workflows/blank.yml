@@ -125,7 +125,9 @@ jobs:
 
 
       - name: Inno Package
+        shell: cmd
         run: |
+          ls
           cd quick-print\setup\exe
           build.bat
 
