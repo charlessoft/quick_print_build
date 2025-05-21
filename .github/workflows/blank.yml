@@ -214,7 +214,7 @@ jobs:
           > ./artifacts/filelist.txt  # 清空或创建 filelist.txt 文件
           for file in ./artifacts/*.{zip,exe}; do
             # Calculate MD5 checksum
-            md5sum=$(md5sum "$file" | awk '{ print \$1 }')
+            md5sum=$(md5sum "$file" | awk '{ print $1 }')
       
             # Write to filelist.txt
             echo "$(basename "$file") | ${md5sum}" >> ./artifacts/filelist.txt
