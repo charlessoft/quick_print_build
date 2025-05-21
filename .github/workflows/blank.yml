@@ -124,6 +124,11 @@ jobs:
         run: msbuild -m -t:Build -p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} quick-print/build/quick-print.sln
 
 
+      - name: Inno Package
+        run: |
+          cd quick-print\setup\exe
+          build.bat
+
       - name: Check Status
         if: ${{ success() }}
         shell: pwsh
@@ -147,30 +152,39 @@ jobs:
           dir
           cd quick-print
           dir 
+          
       - name: Archive binaries
         uses: actions/upload-artifact@v4
         with:
           name: librel64
           path: |
-            README.md
+            quick-print\librel64
+          retention-days: 1 # <= 这里可以设置保留天数
+
+      - name: Archive binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuickPrintSetup.exe
+          path: |
+            quick-print\setup\exe\Output\QuickPrintSetup.exe
           retention-days: 1 # <= 这里可以设置保留天数
 
 
-  package-inno-setup:
-    needs: msw-msvs
-    runs-on: windows-${{ matrix.vsversion }}
-    name: inno package
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4     
+  # package-inno-setup:
+  #   needs: msw-msvs
+  #   runs-on: windows-${{ matrix.vsversion }}
+  #   name: inno package
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4     
 
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: quick-print/librel64  
+  #     - name: Download Artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         path: quick-print/librel64  
 
-      - name: Build package
-        run: |
-          cd quick-print\setup\exe
-          build.bat
+  #     - name: Build package
+  #       run: |
+  #         cd quick-print\setup\exe
+  #         build.bat
 
