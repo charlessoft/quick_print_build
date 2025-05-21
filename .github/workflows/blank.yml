@@ -204,7 +204,7 @@ jobs:
         run: |
           ls ./artifacts
           cd ./artifacts
-          move librel64 QuickPrintAll
+          mv librel64 QuickPrintAll
           zip -r QuickPrintAll.zip QuickPrintAll
           
           
