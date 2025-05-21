@@ -2,8 +2,7 @@ name: CI
 on:
   repository_dispatch:
     types:
-      - webhook-1
-      - webhook-2
+      - quick_print
   push:
     branches: [ main ]
   pull_request:
